@@ -1,5 +1,5 @@
-import { Heading, Box, Text, Flex, Tabs, Button } from "@radix-ui/themes";
-import Link from "next/link";
+import { Heading, Box, Text, Flex } from "@radix-ui/themes";
+// import Link from "next/link";
 
 export default function Restaurants() {
   return (
