@@ -12,6 +12,11 @@ export type LogEntry = {
   media: string;
   title: string;
   link: string;
+  linkName: string;
+};
+const formatDate = (dateString: string): string => {
+  const [year, month, day] = dateString.split("-");
+  return `${day}/${month}/${year}`;
 };
 
 export async function GET() {
@@ -33,10 +38,11 @@ export async function GET() {
         const properties = item.properties;
         return {
           id: item.id,
-          date: properties.Date?.type === "date" ? properties.Date.date?.start ?? "" : "",
+          date: properties.Date?.type === "date" ? formatDate(properties.Date.date?.start ?? "") : "",
           media: properties.Media?.type === "rich_text" ? properties.Media.rich_text?.[0]?.plain_text ?? "" : "",
           title: properties.Title?.type === "title" ? properties.Title.title?.[0]?.plain_text ?? "" : "",
           link: properties.Link?.type === "rich_text" ? properties.Link.rich_text?.[0]?.href ?? "" : "",
+          linkName: properties.Link?.type === "rich_text" ? properties.Link.rich_text?.[0]?.plain_text ?? "" : "",
         };
       });
 
