@@ -84,6 +84,14 @@ export default function Hotel() {
                   ヘアアイロン・
                 </Text>
               </Box>
+              <Box>
+                <Text size="4" as="p">
+                  ⭐️ 持ってきて欲しいもの
+                </Text>
+                <Text size="3" as="p">
+                  ビーサン(サウナ用)・楽しい気持ち❣️
+                </Text>
+              </Box>
             </Flex>
           </Tabs.Content>
 
