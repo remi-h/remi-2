@@ -9,7 +9,7 @@ export default function Restaurants() {
           Restaurants Recommendations
         </Heading>
       </Flex>
-      <Text>Select the location</Text>
+      <Text>TBD</Text>
     </Box>
   );
 }
