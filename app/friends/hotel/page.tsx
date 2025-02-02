@@ -58,7 +58,8 @@ export default function Hotel() {
                   ⭐️ リモートワーク（推奨しない）
                 </Text>
                 <Text size="3" as="p">
-                  モニター・Wifi・電源・デスク・椅子
+                  モニター・Wifi・電源・デスク・椅子<br />
+                  WIFI: Coldspot, passはログインパスワードと同じ
                 </Text>
               </Box>
             </Flex>
