@@ -16,7 +16,7 @@ import ViewToggleButton from "@/components/ViewToggleButton";
 export default function Log() {
   const [sortOrder, setSortOrder] = useState("descending");
   const [view, setView] = useState(() => {
-    if (window.innerWidth < 768) {
+    if (typeof window !== "undefined" && window.innerWidth < 768) {
       return "cards";
     }
     return "table";
