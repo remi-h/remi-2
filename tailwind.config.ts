@@ -11,7 +11,8 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        mint: "#86EAD4"
+        mint: "#bdfcef",
+        logo: "#4CBBA5",
       },
     },
   },
