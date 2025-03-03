@@ -10,12 +10,17 @@ import {
   Card,
 } from "@radix-ui/themes";
 import LastUpdatedBadge from "@/components/LastUpdatedBadge";
-import { LogEntry } from "../api/get-log-database/route";
+import { LogEntry } from "@/app/api/get-log-database/route";
 import ViewToggleButton from "@/components/ViewToggleButton";
 
 export default function Log() {
   const [sortOrder, setSortOrder] = useState("descending");
-  const [view, setView] = useState("table"); // State to manage the current view
+  const [view, setView] = useState(() => {
+    if (window.innerWidth < 768) {
+      return "cards";
+    }
+    return "table";
+  }); // State to manage the current view
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -36,25 +41,16 @@ export default function Log() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setView("card");
-      } else {
-        setView("table");
-      }
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
   const handleSortButtonClick = () => {
     setSortOrder(sortOrder === "ascending" ? "descending" : "ascending");
   };
   const arrow = sortOrder === "ascending" ? "↓" : "↑";
+
+  const sortedLogs = logs.toSorted((a, b) => {
+    const dateA = new Date(a.date.split("/").reverse().join("-")).getTime();
+    const dateB = new Date(b.date.split("/").reverse().join("-")).getTime();
+    return sortOrder === "ascending" ? dateA - dateB : dateB - dateA;
+  });
 
   return (
     <Box>
@@ -106,18 +102,7 @@ export default function Log() {
                         </Table.Cell>
                       </Table.Row>
                     ))
-                  : logs
-                      .sort((a, b) => {
-                        const dateA = new Date(
-                          a.date.split("/").reverse().join("-")
-                        ).getTime();
-                        const dateB = new Date(
-                          b.date.split("/").reverse().join("-")
-                        ).getTime();
-                        return sortOrder === "ascending"
-                          ? dateA - dateB
-                          : dateB - dateA;
-                      })
+                  : sortedLogs
                       .map((log) => (
                         <Table.Row key={log.id}>
                           <Table.Cell>{log.date}</Table.Cell>
@@ -156,18 +141,7 @@ export default function Log() {
           ) : (
             <Flex direction="column" gap="2">
               {" "}
-              {logs
-                .sort((a, b) => {
-                  const dateA = new Date(
-                    a.date.split("/").reverse().join("-")
-                  ).getTime();
-                  const dateB = new Date(
-                    b.date.split("/").reverse().join("-")
-                  ).getTime();
-                  return sortOrder === "ascending"
-                    ? dateA - dateB
-                    : dateB - dateA;
-                })
+              {sortedLogs
                 .map((log) => (
                   <Card key={log.id}>
                     <Flex direction="column" gap="1">
